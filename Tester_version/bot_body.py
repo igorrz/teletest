@@ -6,6 +6,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 import csv
+from datetime import datetime
 
 
 updater = Updater(token='823328456:AAEZqOTZcLnJywiza9PkvgtyHjdFjeFzenE', use_context=True)
@@ -34,6 +35,9 @@ def get_temp(update,context):
             data_time.append(row[1])
         csvfile.close()
     plt.plot([x for x in range(len(data_temp))],data_temp,color='r')
+    datetime_obj=[datetime.strptime(i,'%d-%b %H:%M:%S') for i in data_time]
+    dates = matplotlib.dates.date2num(datetime_obj)
+    matplotlib.pyplot.plot_date(dates, data_temp,color='r')
     #dates = matplotlib.dates.date2num(data_time)
     #matplotlib.pyplot.plot_date(dates, data_temp,color='r')
     plt.title('The temperature plot')
