@@ -28,7 +28,7 @@ def read_temp():
 	
 while True:
     now=datetime.now()
-    current_time=now().strftime("%H:%M")
+    current_time=now.strftime("%H:%M")
     current_date = now.strftime("%d-%b")
     data=[current_date,current_time,read_temp()]
     with open(data_time_directory+'date_time_temp.csv', 'w') as csvfile:
