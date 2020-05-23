@@ -31,8 +31,9 @@ while True:
     current_time=now.strftime("%H:%M")
     current_date = now.strftime("%d-%b")
     data=[current_date,current_time,read_temp()]
-    with open(data_time_directory+'date_time_temp.csv', 'w') as csvfile:
+    with open(data_time_directory+'date_time_temp.csv', 'a') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(data)
+        csvfile.close()
     time.sleep(2)
 
