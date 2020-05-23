@@ -1,11 +1,12 @@
 import os
 import glob
 import time
-from datetime import date
- 
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
+import datetime
+import csv
+
 today = date.today()
+d4 = today.strftime("%b-%d-%Y")
+
 print("Today's date:", today)
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
@@ -29,7 +30,13 @@ def read_temp():
         return temp_c
 	
 while True:
-	print(read_temp())
+    today = datetime.date.today()
+    current_time=datetime.now().strftime("%H:%M")
+    date = today.strftime("%b-%d")
+    data=[date,current_time,read_temp()]
+    with open('date_time_temp.csv', 'w') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(data)
 	time.sleep(120)
 
 data_time_directory='home/pi/teletest/temp_measure'
