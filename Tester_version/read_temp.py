@@ -1,10 +1,12 @@
 import os
 import glob
 import time
+from datetime import date
  
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
- 
+today = date.today()
+print("Today's date:", today)
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
@@ -24,10 +26,10 @@ def read_temp():
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
-        temp_f = temp_c * 9.0 / 5.0 + 32.0
-        return temp_c, temp_f
+        return temp_c
 	
 while True:
-	print(read_temp())	
-	time.sleep(1)
-	
+	print(read_temp())
+	time.sleep(120)
+
+data_time_directory='home/pi/teletest/temp_measure'
