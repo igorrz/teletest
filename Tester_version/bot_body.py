@@ -33,7 +33,7 @@ def get_temp(update,context):
         csvfile.close()
     plt.plot([x for x in range(len(data_complete))],data_complete,color='r')
     plt.savefig(data_time_directory+'plot.png')
-    update.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'plot.png', 'rb'))
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'plot.png', 'rb'))
 
 
 start_handler = CommandHandler('start', start)
