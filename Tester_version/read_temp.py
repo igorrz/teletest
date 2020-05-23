@@ -1,16 +1,13 @@
 import os
 import glob
 import time
-import datetime
+from datetime import datetime
 import csv
 
-today = date.today()
-d4 = today.strftime("%b-%d-%Y")
-
-print("Today's date:", today)
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
+data_time_directory='home/pi/teletest/temp_measure/'
 
 def read_temp_raw():
     f = open(device_file, 'r')
@@ -32,11 +29,10 @@ def read_temp():
 while True:
     today = datetime.date.today()
     current_time=datetime.now().strftime("%H:%M")
-    date = today.strftime("%b-%d")
+    date = datetime.today.strftime("%b-%d")
     data=[date,current_time,read_temp()]
-    with open('date_time_temp.csv', 'w') as csvfile:
+    with open(data_time_directory+'date_time_temp.csv', 'w') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(data)
-	time.sleep(2)
+    time.sleep(2)
 
-data_time_directory='home/pi/teletest/temp_measure'
