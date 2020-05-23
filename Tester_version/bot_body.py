@@ -33,7 +33,7 @@ def get_temp(update,context):
             data_temp.append(float(row[2]))
             data_time.append(row[1])
         csvfile.close()
-    plt.plot([x for x in range(len(data_complete))],data_complete,color='r')
+    plt.plot([x for x in range(len(data_temp))],data_temp,color='r')
     #dates = matplotlib.dates.date2num(data_time)
     #matplotlib.pyplot.plot_date(dates, data_temp,color='r')
     plt.title('The temperature plot')
