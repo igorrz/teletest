@@ -37,6 +37,6 @@ while True:
     with open('date_time_temp.csv', 'w') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(data)
-	time.sleep(120)
+	time.sleep(2)
 
 data_time_directory='home/pi/teletest/temp_measure'
