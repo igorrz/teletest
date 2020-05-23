@@ -27,10 +27,10 @@ def read_temp():
         return temp_c
 	
 while True:
-    today = datetime.date.today()
-    current_time=datetime.now().strftime("%H:%M")
-    date = datetime.today.strftime("%b-%d")
-    data=[date,current_time,read_temp()]
+    now=datetime.now()
+    current_time=now().strftime("%H:%M")
+    current_date = now.strftime("%d-%b")
+    data=[current_date,current_time,read_temp()]
     with open(data_time_directory+'date_time_temp.csv', 'w') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(data)
