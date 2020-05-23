@@ -24,14 +24,21 @@ def start(update, context):
 #    update.message.reply_text('Di nah')
 
 def get_temp(update,context):
-    data_complete=[]
+    data_temp=[]
+    data_time=[]
     with open(data_time_directory+'date_time_temp.csv', 'r') as csvfile:
         csvreader = csv.reader(csvfile)
         fields=next(csvreader)
         for row in csvreader:
-            data_complete.append(row[2])
+            data_temp.append(float(row[2]))
+            data_time.append(row[1])
         csvfile.close()
     plt.plot([x for x in range(len(data_complete))],data_complete,color='r')
+    #dates = matplotlib.dates.date2num(data_time)
+    #matplotlib.pyplot.plot_date(dates, data_temp,color='r')
+    plt.title('The temperature plot')
+    plt.xlabel('Time')
+    plt.ylabel('Temperature in Grad Celsius')
     plt.savefig(data_time_directory+'plot.png')
     context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'plot.png', 'rb'))
 
