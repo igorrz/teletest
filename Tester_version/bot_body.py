@@ -41,7 +41,7 @@ def get_temp_last_10(update,context):
         csvreader = csv.reader(csvfile)
         fields=next(csvreader)
         for row in csvreader:
-            data_complete.append(str(row[2]))
+            data_complete.append(float(row[2]))
         csvfile.close()
     plt.plot(range(len(data_complete[-300:])),data_complete[-300:],color='r')
     plt.savefig(data_time_directory+'plot.png')
@@ -57,3 +57,4 @@ dp.add_handler(last_10)
 dp.add_handler(graph_handler)
 
 updater.start_polling()
+
