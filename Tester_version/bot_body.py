@@ -27,6 +27,7 @@ def get_temp(update,context):
     data_complete=[]
     with open(data_time_directory+'date_time_temp.csv', 'r') as csvfile:
         csvreader = csv.reader(csvfile)
+        fields=next(csvreader)
         for row in csvreader:
             data_complete.append(row[2])
         csvfile.close()
