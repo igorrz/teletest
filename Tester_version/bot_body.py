@@ -38,5 +38,7 @@ def get_temp(update,context):
 start_handler = CommandHandler('start', start)
 dp.add_handler(start_handler)
 dp.add_handler(MessageHandler(Filters.text, echo))
+graph_handler=CommandHandler('get_temp',get_temp)
+dp.add_handler(graph_handler)
 
 updater.start_polling()
