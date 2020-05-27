@@ -21,9 +21,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 def start(update, context):
     usr_name=update.message.from_user.username
     start_message=f"Hello, {usr_name}!\
-        \nThis bot can do only one thing for you: show the current temperature in Igor's apartment.
-        He knows very few commands:
-        \n/{Color.BOLD}overview will{Color.END} plot you the temperature over the last 6 hours
+        \nThis bot can do only one thing for you: show the current temperature in Igor's apartment.\
+        He knows very few commands:\
+        \n/{Color.BOLD}overview will{Color.END} plot you the temperature over the last 6 hours\
         \n{Color.BOLD}/current{Color.END} will show you the current temperature"
     context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
 
