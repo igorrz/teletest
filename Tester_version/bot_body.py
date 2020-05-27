@@ -13,7 +13,6 @@ updater = Updater(token='823328456:AAEZqOTZcLnJywiza9PkvgtyHjdFjeFzenE', use_con
 dp = updater.dispatcher
 data_time_directory='/home/pi/teletest/temp_measure/'
 
-
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 
@@ -25,45 +24,23 @@ def start(update, context):
 #    update.message.reply_text('Di nah')
 
 def get_temp(update,context):
-    data_temp=[]
-    data_time=[]
-    with open(data_time_directory+'date_time_temp.csv', 'r') as csvfile:
-        csvreader = csv.reader(csvfile)
-        fields=next(csvreader)
-        for row in csvreader:
-            data_temp.append(float(row[2]))
-            data_time.append(row[1])
-        csvfile.close()
-    
-    datetime_obj=[datetime.strptime(i,'%H:%M:%S') for i in data_time]
-    datetime_obj = matplotlib.dates.date2num(datetime_obj)
-    plt.plot(datetime_obj,data_temp,color='r',label=f'Current Temp = {data_temp[-1]} Celcius')
-    #matplotlib.pyplot.plot_date(dates, data_temp,color='r')
-    #dates = matplotlib.dates.date2num(data_time)
-    #matplotlib.pyplot.plot_date(dates, data_temp,color='r')
-    plt.title('The temperature plot')
-    plt.xlabel('Time')
-    plt.ylabel('Temperature in Grad Celsius')
-    plt.gca().xaxis.set_major_formatter(pltdates.DateFormatter('%H:%M'))
-    plt.savefig(data_time_directory+'plot.png')
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'plot.png', 'rb'))
+    data_time,data_temp=read_date_temp_file(data_time_directory)
+    temp_plot(data_time,data_temp)
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'current_plot.png', 'rb'))
 
-def get_temp_last_10(update,context):
-    data_complete=[]
-    with open(data_time_directory+'date_time_temp.csv', 'r') as csvfile:
-        csvreader = csv.reader(csvfile)
-        fields=next(csvreader)
-        for row in csvreader:
-            data_complete.append(float(row[2]))
-        csvfile.close()
-    plt.plot(range(len(data_complete[-300:])),data_complete[-300:],color='r')
-    plt.savefig(data_time_directory+'plot.png')
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'plot.png', 'rb'))
+
+def get_temp_last_24(update,context):
+    data_time,data_temp=read_date_temp_file(data_time_directory)
+    data_time=data_time[-720:]; data_temp=data_temp[-720:]
+    temp_plot(data_time,data_temp)
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'current_plot.png', 'rb'))
+    context.bot.send_message(chat_id=update.effective_chat.id, text=f"Current Temperature: {data_temp[-1]}\n"+\
+        f'Last measure: {data_time[-1].time()}')
 
 
 start_handler = CommandHandler('start', start)
 graph_handler=CommandHandler('get_temp',get_temp)
-last_10=CommandHandler('last10',get_temp_last_10)
+last_10=CommandHandler('overview',get_temp_last_24)
 dp.add_handler(start_handler)
 dp.add_handler(last_10)
 #dp.add_handler(MessageHandler(Filters.text, echo))
@@ -71,3 +48,30 @@ dp.add_handler(graph_handler)
 
 updater.start_polling()
 
+
+
+'''
+
+Here bot unrelated backend functions
+
+'''
+
+def temp_plot(time,temp):
+    datetime_obj=[matplotlib.dates.date2num(datetime.strptime(i,'%H:%M:%S')) for i in time]
+    plt.plot(datetime_obj,temp,color='r')
+    plt.title('The temperature plot')
+    plt.xlabel('Time'); plt.ylabel('Temperature in Grad Celsius')
+    plt.gca().xaxis.set_major_formatter(pltdates.DateFormatter('%H:%M'))
+    plt.savefig(data_time_directory+'current_plot.png')
+
+def read_date_temp_file(path):
+    data_temp=[]
+    data_time=[]
+    with open(path+'date_time_temp.csv', 'r') as csvfile:
+        csvreader = csv.reader(csvfile)
+        fields=next(csvreader)
+        for row in csvreader:
+            data_temp.append(float(row[2]))
+            data_time.append(row[1])
+        csvfile.close()
+    return data_time,data_temp
