@@ -40,7 +40,7 @@ def get_temp_last_6(update,context):
 
 def get_current_temp(update,context):
     data_time,data_temp=read_date_temp_file(data_time_directory)
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f"Current Temperature: {data_temp[-1]:.1f}\n Celcius"+\
+    context.bot.send_message(chat_id=update.effective_chat.id, text=f"Current Temperature: {np.round(data_temp[-1],1)} Celcius\n"+\
         f'Last measure: {data_time[-1]}')
 
 start_handler = CommandHandler('start', start)
