@@ -37,3 +37,4 @@ while True:
         csvfile.close()
     time.sleep(120)
 
+#pkill -f bot_body.py
