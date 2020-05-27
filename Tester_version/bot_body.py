@@ -1,4 +1,5 @@
 from telegram.ext import Updater
+from telegram import ParseMode
 from telegram.ext import CommandHandler,MessageHandler,Filters
 from telegram.message import User
 import logging,matplotlib,csv
@@ -25,7 +26,7 @@ def start(update, context):
         He knows very few commands:\
         \n/{Color.BOLD}overview will{Color.BOLDEND} plot you the temperature over the last 6 hours\
         \n{Color.BOLD}/current{Color.BOLDEND} will show you the current temperature"
-    context.bot.send_message(chat_id=update.effective_chat.id, text=start_message,parse_mode=telegram.ParseMode.HTML)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=start_message,parse_mode=ParseMode.HTML)
 
 def get_temp(update,context):
     data_time,data_temp=read_date_temp_file(data_time_directory)
