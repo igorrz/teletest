@@ -1,11 +1,11 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler,MessageHandler,Filters
 from telegram.message import User
-import logging,matplotlib
+import logging,matplotlib,csv
+import numpy as np
 from matplotlib import dates as pltdates
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
-import csv
 from datetime import datetime
 
 
