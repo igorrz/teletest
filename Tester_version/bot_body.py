@@ -5,8 +5,10 @@ import logging,matplotlib,csv
 import numpy as np
 from matplotlib import dates as pltdates
 import matplotlib.pyplot as plt
-matplotlib.use('Agg')
 from datetime import datetime
+from colors import Color
+
+matplotlib.use('Agg') #the plot will not be shown
 
 
 updater = Updater(token='823328456:AAEZqOTZcLnJywiza9PkvgtyHjdFjeFzenE', use_context=True)
@@ -18,10 +20,12 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 def start(update, context):
     usr_name=update.message.from_user.username
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f"Privet, {usr_name}, pomahaemsa?")
-
-#def echo(update, context):
-#    update.message.reply_text('Di nah')
+    start_message=f"Hello, {usr_name}!\
+        \nThis bot can do only one thing for you: show the current temperature in Igor's apartment.
+        He knows very few commands:
+        \n/{Color.BOLD}overview will{Color.END} plot you the temperature over the last 6 hours
+        \n{Color.BOLD}/current{Color.END} will show you the current temperature"
+    context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
 
 def get_temp(update,context):
     data_time,data_temp=read_date_temp_file(data_time_directory)
@@ -43,6 +47,8 @@ def get_current_temp(update,context):
     context.bot.send_message(chat_id=update.effective_chat.id, text=f"Current Temperature: {np.round(data_temp[-1],1)} Celcius\n"+\
         f'Last measure: {data_time[-1]}')
 
+
+
 start_handler = CommandHandler('start', start)
 graph_handler=CommandHandler('get_temp',get_temp)
 last_6=CommandHandler('overview',get_temp_last_6)
@@ -50,8 +56,8 @@ curr_temp=CommandHandler('current',get_current_temp)
 dp.add_handler(start_handler)
 dp.add_handler(last_6)
 dp.add_handler(curr_temp)
-#dp.add_handler(MessageHandler(Filters.text, echo))
 dp.add_handler(graph_handler)
+
 
 updater.start_polling()
 
