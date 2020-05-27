@@ -24,7 +24,7 @@ def start(update, context):
     start_message=f"Hello, {usr_name}!\
         \nThis bot can do only one thing for you: show the current temperature in Igor's apartment.\
         He knows very few commands:\
-        \n/{Color.BOLD}overview will{Color.BOLDEND} plot you the temperature over the last 6 hours\
+        \n/{Color.BOLD}overview{Color.BOLDEND} will plot you the temperature over the last 6 hours\
         \n{Color.BOLD}/current{Color.BOLDEND} will show you the current temperature"
     context.bot.send_message(chat_id=update.effective_chat.id, text=start_message,parse_mode=ParseMode.HTML)
 
