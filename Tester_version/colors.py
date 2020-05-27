@@ -1,3 +1,3 @@
-class Colors:
+class Color:
    BOLD = '<b>'
    BOLDEND = '</b>'
