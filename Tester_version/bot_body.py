@@ -1,8 +1,8 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler,MessageHandler,Filters
 from telegram.message import User
-import logging
-import matplotlib
+import logging,matplotlib
+from matplotlib import dates as pltdates
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 import csv
@@ -34,15 +34,17 @@ def get_temp(update,context):
             data_temp.append(float(row[2]))
             data_time.append(row[1])
         csvfile.close()
-    plt.plot(range(len(data_temp)),data_temp,color='r')
-    #datetime_obj=[datetime.strptime(i,'%H:%M:%S') for i in data_time]
-    #dates = matplotlib.dates.date2num(datetime_obj)
+    
+    datetime_obj=[datetime.strptime(i,'%H:%M:%S') for i in data_time]
+    datetime_obj = matplotlib.dates.date2num(datetime_obj)
+    plt.plot(datetime_obj,data_temp,color='r',label=f'Current Temp = {data_temp[-1]} Celcius')
     #matplotlib.pyplot.plot_date(dates, data_temp,color='r')
     #dates = matplotlib.dates.date2num(data_time)
     #matplotlib.pyplot.plot_date(dates, data_temp,color='r')
     plt.title('The temperature plot')
     plt.xlabel('Time')
     plt.ylabel('Temperature in Grad Celsius')
+    plt.gca().xaxis.set_major_formatter(pltdates.DateFormatter('%H:%M'))
     plt.savefig(data_time_directory+'plot.png')
     context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data_time_directory+'plot.png', 'rb'))
 
