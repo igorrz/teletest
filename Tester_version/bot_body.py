@@ -23,9 +23,9 @@ def start(update, context):
     start_message=f"Hello, {usr_name}!\
         \nThis bot can do only one thing for you: show the current temperature in Igor's apartment.\
         He knows very few commands:\
-        \n/{Color.BOLD}overview will{Color.END} plot you the temperature over the last 6 hours\
-        \n{Color.BOLD}/current{Color.END} will show you the current temperature"
-    context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
+        \n/{Color.BOLD}overview will{Color.BOLDEND} plot you the temperature over the last 6 hours\
+        \n{Color.BOLD}/current{Color.BOLDEND} will show you the current temperature"
+    context.bot.send_message(chat_id=update.effective_chat.id, text=start_message,parse_mode=telegram.ParseMode.HTML)
 
 def get_temp(update,context):
     data_time,data_temp=read_date_temp_file(data_time_directory)
