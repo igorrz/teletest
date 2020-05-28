@@ -74,6 +74,7 @@ def temp_plot(time,temp,title):
     plt.plot(datetime_obj,temp,color='r')
     plt.title(title)
     plt.xlabel('Time'); plt.ylabel('Temperature in Grad Celsius')
+    plt.xmin(datetime_obj[0]);plt.xmax(datetime_obj[-1])
     plt.gca().xaxis.set_major_formatter(pltdates.DateFormatter('%H:%M'))
     plt.savefig(data_time_directory+'current_plot.png')
 
